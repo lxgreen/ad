@@ -1,0 +1,9 @@
+#!/usr/bin/env node
+"use strict";
+
+const path = require("path");
+const fs = require("fs");
+const chalk = require("chalk");
+const prompts = require("prompts");
+const { execSync, spawn } = require("child_process");
+const program = require("commander");
