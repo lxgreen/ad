@@ -10,14 +10,15 @@ npm install -g add-new
 
 ## Usage
 
-`ad [options] <path> [morePaths...]`
+```shell
+ad [options] <path> [morePaths...]
 
 Options:
   -V, --version  output the version number
   -t, --tree     display result tree
   -d, --debug    debug messages on
   -h, --help     output usage information
-
+```
 ### Examples
 
 ```shell
