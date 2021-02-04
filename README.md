@@ -1,5 +1,7 @@
 # ad
 
+**A shorthand CLI for directory and file creation**
+
 ## Installation
 
 ```shell
