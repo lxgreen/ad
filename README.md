@@ -28,6 +28,8 @@ Options:
 Make sure to add a `/` at the end:
 
 `ad dir` creates a file named "dir"
+
+
 `ad dir/` creates a directory "dir"
 
 #### Path expansion
