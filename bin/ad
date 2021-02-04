@@ -1,9 +1,78 @@
 #!/usr/bin/env node
 "use strict";
 
-const path = require("path");
-const fs = require("fs");
-const chalk = require("chalk");
-const prompts = require("prompts");
-const { execSync, spawn } = require("child_process");
+const pth = require("path");
+const { execSync } = require("child_process");
 const program = require("commander");
+const pkg = require("../package.json");
+
+const context = {};
+program
+  .version(pkg.version)
+  .description(pkg.description)
+  .arguments("<path> [morePaths...]")
+  .option("-s, --silent", `omit tree preview`)
+  .action(ad);
+
+program.parse(process.argv);
+
+function execCommand(command, options = {}) {
+  if (context.commandOptions.debug) {
+    console.log();
+    console.log(chalk.grey(`debug: before '${command}' command`));
+  }
+  const returnValue = execSync(command, options);
+  if (context.commandOptions.debug) {
+    console.log(chalk.grey(`debug: '${command}' returned '${returnValue}'`));
+    console.log();
+  }
+
+  return returnValue;
+}
+
+function mkdir(path) {
+  return execCommand(`mkdir -p ${path}`);
+}
+
+function createFile(path) {
+  if (path.includes("dummy.xxx")) {
+    return 0;
+  }
+  return execCommand(`touch ${path}`);
+}
+
+function tree(path) {
+  console.log(" ");
+  return execCommand(
+    `find ${path} -print | sed -e 's;[^/]*/;|____;g;s;____|; |;g'`,
+    {
+      stdio: "inherit",
+    }
+  );
+}
+
+function parsePath(pathArg) {
+  return pth.parse(pathArg.endsWith("/") ? `${pathArg}dummy.xxx` : pathArg);
+}
+
+function ad(path, morePaths, options) {
+  context.commandOptions = options;
+  process.on("unhandledRejection", (error) => {
+    throw error;
+  });
+  process.on("SIGINT", function () {
+    console.log(chalk.yellow("Termination: cancelled by user"));
+    process.exit(0);
+  });
+
+  const paths = [path, ...morePaths];
+  const parsedPaths = paths.map((p) => {
+    const parsed = parsePath(p);
+    return parsed;
+  });
+  parsedPaths.forEach((p) => {
+    mkdir(p.dir);
+    createFile(`${p.dir}/${p.base}`);
+    tree(p.dir.split(pth.sep)[0]);
+  });
+}
