@@ -11,7 +11,8 @@ program
   .version(pkg.version)
   .description(pkg.description)
   .arguments("<path> [morePaths...]")
-  .option("-s, --silent", `omit tree preview`)
+  .option("-t, --tree", `display result tree`)
+  .option("-d, --debug", `debug messages on`)
   .action(ad);
 
 program.parse(process.argv);
@@ -73,6 +74,8 @@ function ad(path, morePaths, options) {
   parsedPaths.forEach((p) => {
     mkdir(p.dir);
     createFile(`${p.dir}/${p.base}`);
-    tree(p.dir.split(pth.sep)[0]);
+    if (context.commandOptions.tree) {
+      tree(`${p.root}${p.dir.split(pth.sep)[0]}`);
+    }
   });
 }
