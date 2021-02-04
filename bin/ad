@@ -19,11 +19,11 @@ program.parse(process.argv);
 function execCommand(command, options = {}) {
   if (context.commandOptions.debug) {
     console.log();
-    console.log(chalk.grey(`debug: before '${command}' command`));
+    console.log(`debug: before '${command}' command`);
   }
   const returnValue = execSync(command, options);
   if (context.commandOptions.debug) {
-    console.log(chalk.grey(`debug: '${command}' returned '${returnValue}'`));
+    console.log(`debug: '${command}' returned '${returnValue}'`);
     console.log();
   }
 
@@ -61,7 +61,7 @@ function ad(path, morePaths, options) {
     throw error;
   });
   process.on("SIGINT", function () {
-    console.log(chalk.yellow("Termination: cancelled by user"));
+    console.log("Termination: cancelled by user");
     process.exit(0);
   });
 

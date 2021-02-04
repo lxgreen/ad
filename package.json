@@ -1,5 +1,5 @@
 {
-  "name": "ad",
+  "name": "add-new",
   "version": "1.0.0",
   "description": "smarter mkdir/touch",
   "main": "ad",
@@ -10,15 +10,16 @@
     "ad": "bin/ad"
   },
   "dependencies": {
-    "chalk": "^2.4.2",
     "child_process": "^1.0.2",
     "commander": "^2.20.0",
-    "path": "^0.12.7",
-    "prompts": "^2.0.4"
+    "path": "^0.12.7"
   },
   "engines": {
     "node": ">=10"
   },
   "author": "lxgreen",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^14.14.24"
+  }
 }
