@@ -23,6 +23,15 @@ Options:
 ```
 ### Examples
 
+#### Create directory
+
+Make sure to add a `/` at the end:
+
+`ad dir` creates a file named "dir"
+`ad dir/` creates a directory "dir"
+
+#### Path expansion
+
 ```shell
 $ ad src/components/todo-{list,item}.{ts,scss} -t
 ```
