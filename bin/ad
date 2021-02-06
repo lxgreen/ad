@@ -71,11 +71,17 @@ function ad(path, morePaths, options) {
     const parsed = parsePath(p);
     return parsed;
   });
+
+  const treePaths = [];
   parsedPaths.forEach((p) => {
+    const treePath = `${p.root}${p.dir.split(pth.sep)[0]}`;
+    if (!treePaths.includes(treePath)) {
+      treePaths.push(treePath);
+    }
     mkdir(p.dir);
     createFile(`${p.dir}/${p.base}`);
-    if (context.commandOptions.tree) {
-      tree(`${p.root}${p.dir.split(pth.sep)[0]}`);
-    }
   });
+  if (context.commandOptions.tree) {
+    treePaths.forEach((p) => tree(p));
+  }
 }

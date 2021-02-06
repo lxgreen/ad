@@ -16,11 +16,14 @@
   "author": {
     "name": "lxgreen",
     "email": "alxgreen@gmail.com"
-  }
+  },
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/lxgreen/ad.git"
   },
-  "keywords": ["mkdir", "touch"]
+  "keywords": [
+    "mkdir",
+    "touch"
+  ]
 }
