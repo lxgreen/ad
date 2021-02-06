@@ -53,7 +53,9 @@ function tree(path) {
 }
 
 function parsePath(pathArg) {
-  return pth.parse(pathArg.endsWith("/") ? `${pathArg}dummy.xxx` : pathArg);
+  return pth.parse(
+    pth.resolve(pathArg.endsWith("/") ? `${pathArg}dummy.xxx` : pathArg)
+  );
 }
 
 function ad(path, morePaths, options) {
@@ -72,11 +74,28 @@ function ad(path, morePaths, options) {
     return parsed;
   });
 
+  if (context.commandOptions.debug) {
+    console.log("parsed paths", { parsedPaths });
+  }
+
   const treePaths = [];
   parsedPaths.forEach((p) => {
-    const treePath = `${p.root}${p.dir.split(pth.sep)[0]}`;
-    if (!treePaths.includes(treePath)) {
-      treePaths.push(treePath);
+    if (context.commandOptions.tree) {
+      let treePath = pth.relative(process.cwd(), p.dir);
+      if (treePath === "") {
+        treePath = "./";
+      } else if (treePath.includes(pth.sep)) {
+        treePath = treePath.split(pth.sep)[0];
+      }
+
+      if (context.commandOptions.debug) {
+        console.log("path", `${p.dir}`);
+        console.log("cwd", process.cwd());
+        console.log("tree path", treePath);
+      }
+      if (!treePaths.includes(treePath)) {
+        treePaths.push(treePath);
+      }
     }
     mkdir(p.dir);
     createFile(`${p.dir}/${p.base}`);
